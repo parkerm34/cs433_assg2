@@ -302,44 +302,50 @@ void key_CB(unsigned char key, int x_cord, int y_cord)
 {
 	switch (key)
 	{
-		case'd':
+		case 'd': case 'D':
 			if(debug)
                                 cout << key << " received" << endl;
 			break;
-                case'f':
+                case 'f': case 'F':
 			if(debug)
                                 cout << key << " received" << endl;
                         break;
-                case'c':
+                case 'c': case 'C':
 			if(debug)
                                 cout << key << " received" << endl;
                         break;
-                case'v':
+                case 'v': case 'V':
 			if(debug)
                                 cout << key << " received" << endl;
                       	break;
-		case'r':
+		case 'r': case 'R':
 			if(debug)
                                 cout << key << " received" << endl;
                         break;
-		case'w':
+		case 'w': case 'W':
+			W = !W;
+			if(debug)
+                                cout << key << " received" << endl;
+			display();
+                        glutPostRedisplay();
+                        break;
+		case 's': case 'S':
+			S = !S;
+			if(debug)
+                                cout << key << " received" << endl;
+			display();
+                       	glutPostRedisplay();
+                        break;
+                case 'x': case 'X':
 			if(debug)
                                 cout << key << " received" << endl;
                         break;
-		case's':
-			if(debug)
-                                cout << key << " received" << endl;
-                        break;
-                case'x':
-			if(debug)
-                                cout << key << " received" << endl;
-                        break;
-                case'z':
+                case 'z': case 'Z':
 			if(debug)
                                 cout << key << " received" << endl;
                         break;
                 // Quits application
-                case'q': case 27:
+                case 'q': case 'Q': case 27:
 			if(debug)
 				cout << key << " received" << endl;
                         exit(0); 
