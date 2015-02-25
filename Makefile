@@ -9,13 +9,13 @@ CPPFLAGS = -g
 .cpp.o:
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@  $<
 
-LIBS = -framework OpenGL -framework GLUT -lglew 
+LIBS = -framework OpenGL -framework GLUT -lglew -lm 
 
-SRCS = example1.cpp LoadShaders.cpp
-OBJS = example1.o LoadShaders.o 
+SRCS = assg2.cpp LoadShaders.cpp
+OBJS = assg2.o LoadShaders.o 
 
 example1: $(OBJS) LoadShaders.h
-	g++ -g -o example1 $(OBJS) $(LIBS)
+	g++ -g -o assg2 $(OBJS) $(LIBS)
 
 clean:
-	rm -f example1 *.o
+	rm -f assg2 *.o

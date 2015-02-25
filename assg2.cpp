@@ -18,7 +18,7 @@ const GLuint trisVert = 0, triVert = 1, triColor = 2, circVert = 3, circColor = 
 
 GLuint Program, Program2;
 
-const int debug = 0, debug_level2 = 1;
+const int debug = 1, debug_level2 = 1;
 bool X = 1, Y = 1, Z = 0, W = 0, S = 0;
 float C1 = 0.0f, C2 = 0.0f, C3 = 1.0f, G_RAD = 0.5f;
 int G_NUM = 21;
@@ -271,107 +271,75 @@ void idle_CB()
 //	glutPostRedisplay();
 }
 
+void SpecialInput(int key, int x, int y)
+{
+	switch(key)
+	{
+		case GLUT_KEY_UP:
+			if(debug)
+                                cout << key << " up received" << endl;
+			break;
+		case GLUT_KEY_DOWN:
+			if(debug)
+                                cout << key << " down received" << endl;
+                        break;
+		case GLUT_KEY_LEFT:
+			if(debug)
+                                cout << key << " left received" << endl;
+                        break;
+		case GLUT_KEY_RIGHT:
+			if(debug)
+                                cout << key << " right received" << endl;
+                        break;
+		default:
+			if(debug)
+                                cout << "[default] " << key << " received and not handled." << endl;
+                        break;
+	}
+}
+
 void key_CB(unsigned char key, int x_cord, int y_cord)
 {
 	switch (key)
 	{
-		// Specify the color for both triangles and circle, user provides 3 floating point numbers
-		// through stdin for the color, in the range 0. to 1., in the order of red, green, blue components.
-		// The default initial color is blue (0., 0., 1.)
-		case'c':
+		case'd':
 			if(debug)
-				cout << key << " received" << endl;
-			change_color();
-			glutPostRedisplay();
+                                cout << key << " received" << endl;
 			break;
-		// shaded surface display : renders objects as solid surfaces
-		// the drawing or rendering mode in OpenGL mode is controlled through a call to glPolygonMode.
-		// After changing the OpenGL rasterization (drawing) mode, you can force a redraw through GLUT
-		// using glutPostRedisplay function call.
-                case's':
-			S = !S;
+                case'f':
 			if(debug)
-                        	cout << key << " received" << endl; 
-			display();
-			glutPostRedisplay();
+                                cout << key << " received" << endl;
                         break;
-                // wireFrame display : render ofbjects in wireframe. glLineWidth to specify thickness of lines
-                case'w':
-			W = !W;
+                case'c':
 			if(debug)
-                        	cout << key << " received" << W << endl;
-			display();
-			glutPostRedisplay();
+                                cout << key << " received" << endl;
                         break;
-                // Generate the gemoetry for the circle, user needs to provide a floating point number for radius
-		// value in the range of 0. to 1., and a integer number for steps to use when generating triangles
-		// to approx the circle
-                case'g':
+                case'v':
 			if(debug)
-                        	cout << key << " received" << endl;
-			generate_circle();
-			if(debug)
-				cout << "G_RAD = " << G_RAD << endl << "G_NUM = " << G_NUM << endl;
-			glutPostRedisplay();  
+                                cout << key << " received" << endl;
                       	break;
-                // Toggle display of the two striangles, default value is on
+		case'r':
+			if(debug)
+                                cout << key << " received" << endl;
+                        break;
+		case'w':
+			if(debug)
+                                cout << key << " received" << endl;
+                        break;
+		case's':
+			if(debug)
+                                cout << key << " received" << endl;
+                        break;
                 case'x':
-			glUseProgram( Program );
-			X = !X;
-
-			if(X)
-			{
-				glBindVertexArray( VAOs[Triangles] );
-				glEnableVertexAttribArray( trisVert );
-			}
-			if(!X)
-			{
-				glBindVertexArray( VAOs[Triangles] );
-				glDisableVertexAttribArray( trisVert );
-			}
 			if(debug)
-                        	cout << key << " received " << X << endl;
-			glutPostRedisplay();
+                                cout << key << " received" << endl;
                         break;
-                // Toggle display of the single triangle, default value is on
-               case'y':
-			glUseProgram( Program2 );
-			Y = !Y;
-			if(Y)
-			{
-				glBindVertexArray( VAOs[Triangle] );
-                                glEnableVertexAttribArray( triVert );
-			}
-                        if(!Y)
-			{
-				glBindVertexArray( VAOs[Triangle] );
-                                glDisableVertexAttribArray( triVert );
-			}
-			if(debug)
-                        	cout << key << " received " << Y << endl;
-			glutPostRedisplay();
-                        break;
-                // Toggle display of the circle, default is off, should not be visible until after g(enerate) is used.
                 case'z':
 			if(debug)
-				print_circ();
-			Z = !Z;
-			if(Z)
-			{
-				glBindVertexArray( VAOs[Circle] );
-                                glEnableVertexAttribArray( trisVert );
-			}
-                        if(!Z)
-			{
-				glBindVertexArray( VAOs[Circle] );
-                                glDisableVertexAttribArray( trisVert );
-			}
-			if(debug)
-                        	cout << key << " received " << Z << endl;
-			glutPostRedisplay();
+                                cout << key << " received" << endl;
                         break;
                 // Quits application
-                case'q':
+                case'q': case 27:
 			if(debug)
 				cout << key << " received" << endl;
                         exit(0); 
@@ -394,14 +362,18 @@ int main(int argc, char* argv[])
 	glutInit( &argc, argv );
 
 	// initialize display format
-	glutInitDisplayMode( GLUT_RGB );
+//	glutInitDisplayMode( GLUT_RGB );
+	/* UNCOMMENT THIS LINE FOR GS930*/
+	glutInitDisplayMode( GLUT_3_2_CORE_PROFILE | GLUT_RGBA );
 
 	// initialize window size
 	glutInitWindowSize( 512, 512 );
 
 
-	glutInitContextVersion( 4, 3 );
-	glutInitContextProfile( GLUT_CORE_PROFILE );// GLUT_COMPATIBILITY_PROFILE );
+//	glutInitContextVersion( 4, 3 );
+//	glutInitContextProfile( GLUT_CORE_PROFILE );// GLUT_COMPATIBILITY_PROFILE );
+	/*UNCOMMENT THESE 2 LINES FOR GS 930*/
+
 
 	// create window with name from executable
 	glutCreateWindow( argv[0] );
@@ -409,6 +381,8 @@ int main(int argc, char* argv[])
 	glutIdleFunc(idle_CB);
 
 	glutKeyboardFunc(key_CB);
+
+	glutSpecialFunc(SpecialInput);
 
 	glewExperimental = GL_TRUE;	// added for glew to work!
 	if ( glewInit() )
